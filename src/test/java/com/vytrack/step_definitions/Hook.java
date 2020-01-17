@@ -7,17 +7,19 @@ import io.cucumber.java.Before;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
+import java.net.MalformedURLException;
+
 public class Hook {
 
     @Before
     public void setup(){
         System.out.println("##############################");
         System.out.println("Test setup!");
-        Driver.get().manage().window().maximize();
+    //    Driver.get().manage().window().maximize();
     }
 
     @After
-    public void teardown(Scenario scenario){
+    public void teardown(Scenario scenario) throws MalformedURLException {
         //if test failed - do this
         if(scenario.isFailed()){
             System.out.println("Test failed!");

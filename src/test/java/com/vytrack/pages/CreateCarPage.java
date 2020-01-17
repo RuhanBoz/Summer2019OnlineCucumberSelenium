@@ -6,6 +6,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
+import java.net.MalformedURLException;
+
 public class CreateCarPage extends BasePage {
 
     @FindBy(css = "[id^='custom_entity_type_LicensePlate']")
@@ -20,6 +22,15 @@ public class CreateCarPage extends BasePage {
     @FindBy(css = "[class='btn btn-success action-button']")
     public WebElement saveAndCloseButtonElement;
 
+    @FindBy(xpath = "//li//button[contains(text(),'Save and New')]")
+    public WebElement saveAndNew;
+
+    @FindBy(xpath = "//li//button[contains(text(),'Save and Close')]")
+    public WebElement saveAndCloseButtonFromMenuElement;
+
+    @FindBy(css = "div[class='btn-group pull-right'] > a[data-toggle='dropdown']")
+    public WebElement saveAndCloseToggle;
+
     @FindBy(css = "div[id*='FuelType']")
     public WebElement fuelTypeElement;
 
@@ -32,6 +43,9 @@ public class CreateCarPage extends BasePage {
 
     @FindBy(name = "custom_entity_type[Color]")
     public WebElement colorElement;
+
+    public CreateCarPage() throws MalformedURLException {
+    }
 
 
     /**
@@ -46,7 +60,7 @@ public class CreateCarPage extends BasePage {
      * <p>
      * createCarPage.selectTags("Senior"); // Senior tag will be selected
      */
-    public WebElement selectTags(String tagName) {
+    public WebElement selectTags(String tagName) throws MalformedURLException {
         //locator for checkbox is based on label name
         //label and checkbox are siblings
         String locator = "//label[text()='" + tagName + "']/preceding-sibling::input[@type='checkbox']";
@@ -63,13 +77,13 @@ public class CreateCarPage extends BasePage {
      * Select fuel type by visible text
      *
      * @param fuelType - Diesel, Electric, Hybrid
-     *  <p>
-     *  usage: CreateCarPage createCarPage = new CreateCarPage();
-     *  <p>
-     *  to select gasoline type
-     *  createCarPage.selectFuelType("Diesel"); - if you want to select Diesel as fuel type
+     *                 <p>
+     *                 usage: CreateCarPage createCarPage = new CreateCarPage();
+     *                 <p>
+     *                 to select gasoline type
+     *                 createCarPage.selectFuelType("Diesel"); - if you want to select Diesel as fuel type
      */
-    public void selectFuelType(String fuelType) {
+    public void selectFuelType(String fuelType) throws MalformedURLException {
         String locator = "//div[@class='select2-result-label' and text()='" + fuelType + "']";
         BrowserUtils.waitForClickablility(fuelTypeElement, 15);
         fuelTypeElement.click();
@@ -81,10 +95,25 @@ public class CreateCarPage extends BasePage {
     /**
      * This method will upload a file
      * File from your computer!
+     *
      * @param pathToTheFile that you want to upload
      */
-    public void uploadLogo(String pathToTheFile){
+    public void uploadLogo(String pathToTheFile) {
         BrowserUtils.waitForVisibility(logoElement, 15);
         logoElement.sendKeys(pathToTheFile);
+    }
+
+    public void clickSaveAndAddNew() throws MalformedURLException {
+        waitUntilLoaderMaskDisappear();
+        BrowserUtils.clickWithWait(saveAndCloseToggle);
+        BrowserUtils.waitForVisibility(saveAndNew, 5);
+        BrowserUtils.clickWithWait(saveAndNew);
+    }
+
+    public void clickSaveAndClose() throws MalformedURLException {
+        waitUntilLoaderMaskDisappear();
+        BrowserUtils.clickWithWait(saveAndCloseToggle);
+        BrowserUtils.waitForVisibility(saveAndCloseButtonFromMenuElement, 5);
+        BrowserUtils.clickWithWait(saveAndCloseButtonFromMenuElement);
     }
 }

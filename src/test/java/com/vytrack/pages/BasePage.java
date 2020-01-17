@@ -25,6 +25,7 @@ public class BasePage {
 
     @FindBy(css = "h1[class='oro-subtitle']")
     public WebElement pageSubTitle;
+
     @FindBy(css = "#user-menu > a")
     public WebElement userName;
 
@@ -131,9 +132,9 @@ public class BasePage {
         BrowserUtils.waitForClickablility(userName, 5).click();
         BrowserUtils.waitForClickablility(myUser, 5).click();
     }
+
     public void waitForPageSubTitle(String pageSubtitleText) {
         new WebDriverWait(Driver.get(), 10).until(ExpectedConditions.textToBe(By.cssSelector("h1[class='oro-subtitle']"), pageSubtitleText));
     }
 
 }
-
